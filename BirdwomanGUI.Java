@@ -3,21 +3,27 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
 
-class Birdwoman extends JPanel {
+public class BirdwomanGUI extends JFrame {
     private BufferedImage characterImage;
+    private String description;
 
-    public Birdwoman() {
-        loadCharacterImage(getRandomCharacterImage());
+    public BirdwomanGUI() {
+        setTitle("Random Birdwoman");
+        setSize(400, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+
+        boolean isWhiteWings = Math.random() < 0.5;
+        String imagePath = isWhiteWings ? "Birdwomen one.png" : "Birdwomen two.png";
+        description = isWhiteWings ? "This woman has white wings" : "This woman has gold wings";
+
+
+        loadCharacterImage(imagePath);
     }
 
-
-    private static String getRandomCharacterImage() {
-        Random rand = new Random();
-        return rand.nextBoolean() ? "Birdwomen one.png" : "Birdwomen two.png"; 
-    }
 
     private void loadCharacterImage(String filePath) {
         try {
@@ -30,22 +36,16 @@ class Birdwoman extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+   
         if (characterImage != null) {
             g.drawImage(characterImage, 0, 0, this);
         }
-    }
-}
 
-
-public class BirdwomanGUI extends JFrame {
-    public BirdwomanGUI() {
-        setTitle("Random Birdwomen");
-        setSize(400, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-
-        add(new Birdwoman(), BorderLayout.CENTER);
+  
+        g.setColor(Color.BLACK); 
+        g.setFont(new Font("Arial", Font.BOLD, 18)); 
+        g.drawString(description, 20, getHeight() - 20); 
     }
 
     public static void main(String[] args) {
